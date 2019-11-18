@@ -1,0 +1,12 @@
+Tabirca Natalia-Mihaela 322CA
+
+Am implementat o functie recursiva numita traverse care parcurge arborele in preordine.
+
+Ideea functiei:
+	- in eax se va retine nodul curent, iar in edx valoarea sa
+	- verific daca eax este frunza, adica stocheaza un numar
+	- daca in eax e numar, atunci apelez functia string_to_number, iar valoarea de return o mut in registrul cu care lucrez
+	- daca e sem, fac cele 2 apeluri recursive stocand pe stiva valori pe care nu vreau sa le pierd (vreau sa pastrez in edx mereu caracterele)
+	- verific semnul si fac operatiile corespunzatoare
+
+Rezultatul este stocat in eax. 
