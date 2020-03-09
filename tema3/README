@@ -1,0 +1,43 @@
+nice:
+ ~ Task 1 ~
+	Adresa vulnerabila este 804867d deoarece, dupa apelul functiei de citire in cadrul acestei functii care incepe la adresa specificata, se adauga pe stiva rezultatul intors de functie prin eax, apoi se face apel la adresa retinuta in eax. Adresa la care trebuie sa sara programul este invalida, prin urmare programul intoarce SIGSEGV.
+
+ ~ Task 2 ~
+	Flagul obtinut este: NICE_FLAG{1bdda861a51f76f710adf2b2ddf43210}
+	Pentru crearea payload-ului pentru cazul nice trebuie urmarite constantele prin care se precizeaza numarul de caractere citite de fiecare functie. La adresa precizata mai sus incepe a 8-a sectiune din flag-ul "print_flag". In cadrul sau se afla un apel catre eax, prin urmare in eax trebuie sa se afle in acel moment adresa 080485b1 (prin care pot sari la printarea flag-ului).
+	Astfel, se citesc: 	la prima citire 0x92  = 146
+				la a 2-a citire 0x6b  = 107
+				la a 3-a citire 0xd2  = 210
+				la a 4-a citire 0xcb  = 203
+				la a 5-a citire 0x1f5 = 501
+				la a 6-a citire 0x2d7 = 727 caractere. (aici nu ajung sa fie citite toate)
+	La cea de-a 6-a citire in eax se muta elementele continute pe stiva la [ebp+0x8] deci pe acea pozitie trebuie sa se afle adresa dorita.
+
+	Asfel se creeaza payload-ul conform formulei:
+
+	(146 + 107 + 210 + 203 + 501 + last + offset) * 'X' + <adr> (in caractere),
+
+	unde:	last = spatiul creat pe stiva prin instructiunea "sub esp,0x1c2", 
+		offset = offset-ul fata de ebp din instructiunea "mov eax,DWORD PTR [ebp+0x8]"
+		adr = 0x080485b1
+	
+
+naughty:
+ ~ Task 3 ~
+	Adresa vulnerabila este 80486a9 deoarece, similar cu cazul precedent, finalizarea programului depinde de valoarea stocata in eax, care trebuie sa fie adresa functiei de printare.
+	Prentru crearea payload-ului care sa ruleze cu succes programul si sa afiseze flag-ul dorit: NAUGHTY_FLAG{c8762710f7d82cb48a37ccde4f5742d2} trebuie tinut  cont si de compararile unor secvente din text cu constantele sugerate. Astfel, la fiecare citire, in interiorul secventelor, la pozitia dorita trebuie sa se afle cele 4 caractere corespunzatoare pentru ca programul sa ruleze cu succes.
+
+	Structura payload-ului am determinat-o astfel:
+		- Sunt 5 citiri pana la functia vulnerabila (inclusiv).
+		- In fiecare functie (notez valorile inlocuite de "*"): 	
+					-> se face loc pe stiva:	"sub esp, 0x***" = space
+					-> se precizeaza cate caractere vor fi citite:	"push 0x***"  = nr
+					-> se compara valoarea de la o anumita pozitie "[ebp - 0x***]" = count
+						cu o adresa 0x******** = adr
+	before = space - count
+	after = nr - 4 - before
+	Astfel, la fiecare citire, sirul format va fi descris prin: before * 'X' + <adr> (in caractere) + after * 'X'
+	La cea de-a 5-a citire, after = count - 4 + offset, unde offset, in cazul acesta este 8, din instructiunea mov eax,DWORD PTR [ebp+0x8].
+	Dupa aceste secvente, se scre adresa functiei print_fleg, adica 080485b1.
+	
+!!! Pentru generarea payoac-urilor cu adresele corecte, am folosit un HexEditor online pentru a-mi asigura conversia corecta din hexadecimal in caracter.

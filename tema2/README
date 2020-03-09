@@ -1,0 +1,42 @@
+Tabirca Natalia Mihaela 322CA
+
+
+~ Task 1: ~
+	Aleg cheia ca fiind un numar de la 0 la 255. Pentru fiecare cheie, parcurg matricea, iar daca gasesc cuvantul "revient", stocat in sectiunea de date folosind codurile ASCII ale literelor, ma opresc si pastrez indicele pe care se afla litera 't'. 
+	Din indice, scad lungimea cuvantului pentru a afla indexul literei 'r', apoi, pentru a pastra linia, impart indexul obtinut la latimea imaginii.
+	Cum mesajul se afla stocat la inceputul randului, pentru a-l afisa ma pozitionez pe primul element de pe linia necesara, apoi aplic cheia pe caractere si afisez mesajul obtinut. 
+
+~ Task 2: ~
+	Sar la solve_task1 pentru a lua keia si linia corespunzatoare. Calculez noua cheie, salvand-o pe stiva. Parcurg intreaga imagine si o decriptez cu vechea cheie, apoi adaug mesajul retinut in sectiunea de date pe linia urmatoare. 
+	Criptez imaginea cu noua cheie, apoi o afisez folosind functia print_image.
+
+Task 3:
+	Parsez mesajul dat ca parametru pana cand caracterele gasite nu mai sunt litere sau virgula si ii aflu lungimea. Parcurg in continuare sirul dat ca parametru si aflu indexul pe care il transform in numar. 
+	Parcurg din nou sirul dat ca parametru, de la inceput, pana la finalul sau ( acum ii stiu lungimea) si verific ce litera este. Adaug in matrice transformarea sa in codul Morse, adaugand si semnele petru virgula sau spatii intre litere.
+	Afisez imaginea folosind functia print_image.
+
+Task 4:
+	Similar task-ului 3, parcurg mesajul dat ca parametru si gasesc pozitia de la care trebuie ctriptat.
+	Parcurg fiecare litera a sa si iau fiecare bit 'k' prin operatia: 
+   			--->	litera & (2 ^ k)    <---
+apoi shiftez la dreapta cu k biti pentru a avea pe ultima pozitie bitul care trebuie criptat.
+	Verific apoi care este ultimul bit al elementului corespunzator din matrice. 
+Daca este 1, atunci folosesc operatia: -->  element_img | litera (sau)
+Daca este 0, atunci folosesc operatiile: --> not litera  ( neg bitii )
+					     litera-- 	 ( ultimul bit sa fie cel initial )
+					     element_img & litera (si)
+	Astfel, evit alterarea valorilor matricei.
+	Dupa ce termin de criptat tot mesajul, afisez imaginea folosind print_image.
+
+Task 5:
+	Procedeul este invers fata de task 4. Dupa ce calculez indicele din sirul dat ca parametru, parcurg matricea de la indicele respectiv pana cand intalnesc terminatorul de sir si cat timp nu depasesc 20 de caractere.
+	Parcurg cate 8 elemente pentru a lua ultimul bit al fiecaruia si prin shiftari la dreapta formez caracterul care trebuie afisat. Dupa ce am parcuurs 8 biti, afisez caracterul si resetez valoarea caracterului.
+
+Task 6:
+	Calculez valorile elementelor dupa calcularea mediei. pun valorile pe stiva pentru a nu modifica imaginea si deteriora blur-ul. Problema este ca in acest caz valorile vor fi stocare invers, deci le voi scoate in imagine, doar ca ea va fi rotita la 180 de grade. Le pun din nou pe stiva si le scot pentru a pune in ordinea corecta.
+	Afisez imaginea folosind functia print_image.
+
+
+
+
+
